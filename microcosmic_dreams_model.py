@@ -36,7 +36,7 @@ print ("Total Patterns: ", n_patterns)
 
 #reshape X to be [samples, time steps, features]
 X = numpy.reshape(dataX, (n_patterns, seq_length, 1))
-# normalize
+#normalize
 X = X / float(n_vocab)
 #hot encode the output variable
 y = np_utils.to_categorical(dataY)
