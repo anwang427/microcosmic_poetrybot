@@ -48,6 +48,8 @@ model.add(Dropout(0.2))
 model.add(LSTM(256))
 model.add(Dropout(0.2))
 model.add(Dense(y.shape[1], activation='softmax'))
+filename = "weights-improvement_2.0-33-1.4129.hdf5" #start training from previous checkpoint
+model.load_weights(filename)
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 
 #define the checkpoint

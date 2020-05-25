@@ -10,7 +10,7 @@ from keras.utils import np_utils
 from keras import backend as K
 
 #load chinese poetry corpus ASCII text into memory and convert to lowercase
-raw_text= open("poetry_corpus.txt", "r").read()
+raw_text= open("/Users/Anna/Desktop/microcosmic_poetrybot/poetry_corpus.txt", "r").read()
 raw_text=raw_text.lower()
 
 #map all unique characters and words to an integer for simpler processing. This is a 
@@ -43,12 +43,14 @@ y = np_utils.to_categorical(dataY)
 
 #define the LSTM model
 model = Sequential()
-model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
+model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences = True))
+model.add(Dropout(0.2))
+model.add(LSTM(256))
 model.add(Dropout(0.2))
 model.add(Dense(y.shape[1], activation='softmax'))
 
 #load network weights
-filename = "weights-improvement-20-2.1532.hdf5"
+filename = "/Users/Anna/Desktop/microcosmic_poetrybot/weights-improvement_2.0-20-1.3127.hdf5"
 model.load_weights(filename)
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 
@@ -59,7 +61,7 @@ print("Seed:")
 print ("\"", ''.join([int_to_char[value] for value in pattern]), "\"")
 
 #generate the poem characters
-for i in range(1000):
+for i in range(600):
 	x = numpy.reshape(pattern, (1, len(pattern), 1))
 	x = x / float(n_vocab)
 	prediction = model.predict(x, verbose=0)
